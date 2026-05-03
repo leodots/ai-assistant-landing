@@ -35,7 +35,6 @@ export function Nav() {
             ? "rgba(252,251,249,0.78)"
             : "rgba(252,251,249,0)",
           backdropFilter: scrolled ? "blur(14px) saturate(180%)" : "blur(0px)",
-          WebkitBackdropFilter: scrolled ? "blur(14px) saturate(180%)" : "blur(0px)",
           borderBottomColor: scrolled ? "rgba(232,229,224,1)" : "rgba(232,229,224,0)",
         }}
         transition={{ duration: 0.25, ease: "easeOut" }}

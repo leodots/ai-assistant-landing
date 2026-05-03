@@ -50,7 +50,6 @@ export function FloatingFragments({ className }: FloatingFragmentsProps) {
             style={{
               top: frag.top,
               right: frag.right,
-              bottom: frag.bottom,
             }}
             initial={{ opacity: 0, y: 8 }}
             animate={{

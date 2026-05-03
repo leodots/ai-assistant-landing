@@ -7,6 +7,7 @@ import { MagneticButton } from "./magnetic-button";
 import { AmbientBlobs } from "./ambient-blobs";
 import { ChatSimulation } from "./chat-simulation";
 import { FloatingFragments } from "./floating-fragments";
+import { productLinks } from "@/lib/product-links";
 
 const line1 = ["Conhecimento", "que"];
 const line2 = ["vira", "atendimento."];
@@ -100,6 +101,7 @@ export function Hero() {
             className="mt-8 flex flex-wrap items-center gap-3"
           >
             <MagneticButton
+              href={productLinks.signup}
               variant="primary"
               size="lg"
               icon={<ArrowRight size={16} strokeWidth={2.4} />}
@@ -107,6 +109,7 @@ export function Hero() {
               Começar grátis
             </MagneticButton>
             <MagneticButton
+              href={productLinks.demo}
               variant="secondary"
               size="lg"
               icon={<Play size={14} strokeWidth={2.4} />}

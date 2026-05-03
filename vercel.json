@@ -1,0 +1,29 @@
+{
+  "redirects": [
+    {
+      "source": "/login",
+      "destination": "https://app.aiassistente.com.br/login",
+      "permanent": false
+    },
+    {
+      "source": "/signup",
+      "destination": "https://app.aiassistente.com.br/auth/google",
+      "permanent": false
+    },
+    {
+      "source": "/auth/google",
+      "destination": "https://app.aiassistente.com.br/auth/google",
+      "permanent": false
+    },
+    {
+      "source": "/app/:path*",
+      "destination": "https://app.aiassistente.com.br/app/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/contato",
+      "destination": "/",
+      "permanent": false
+    }
+  ]
+}

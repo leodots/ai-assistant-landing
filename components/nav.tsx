@@ -5,6 +5,7 @@ import { useState } from "react";
 import { BrandMark } from "./brand-mark";
 import { MagneticButton } from "./magnetic-button";
 import { ArrowRight } from "lucide-react";
+import { productLinks } from "@/lib/product-links";
 
 const navLinks = [
   { label: "Produto", href: "#produto" },
@@ -59,13 +60,13 @@ export function Nav() {
 
         <div className="flex items-center gap-2">
           <a
-            href="/login"
+            href={productLinks.login}
             className="hidden sm:inline-flex h-9 items-center rounded-md px-3 text-[14px] font-medium text-fg-muted transition-colors hover:text-fg hover:bg-bg-subtle"
           >
             Entrar
           </a>
           <MagneticButton
-            href="/signup"
+            href={productLinks.signup}
             size="sm"
             variant="primary"
             icon={<ArrowRight size={14} strokeWidth={2.4} />}

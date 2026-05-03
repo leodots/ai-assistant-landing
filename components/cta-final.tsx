@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { MagneticButton } from "./magnetic-button";
 import { LunaOrb } from "./luna-orb";
 import { AmbientBlobs } from "./ambient-blobs";
+import { productLinks } from "@/lib/product-links";
 
 const ease = [0.32, 0.72, 0, 1] as const;
 
@@ -82,6 +83,7 @@ export function CTAFinal() {
               className="mt-9 flex flex-wrap gap-3"
             >
               <MagneticButton
+                href={productLinks.signup}
                 variant="white"
                 size="lg"
                 icon={<ArrowRight size={16} strokeWidth={2.4} />}
@@ -89,7 +91,7 @@ export function CTAFinal() {
                 Criar workspace
               </MagneticButton>
               <a
-                href="/contato"
+                href={productLinks.sales}
                 className="inline-flex h-12 items-center justify-center rounded-lg border border-white/20 px-5 text-[15px] font-medium text-white transition-colors hover:bg-white/10"
               >
                 Falar com vendas

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Check, Sparkles } from "lucide-react";
 import { MagneticButton } from "./magnetic-button";
 import { cn } from "@/lib/utils";
+import { productLinks } from "@/lib/product-links";
 
 const ease = [0.32, 0.72, 0, 1] as const;
 
@@ -275,6 +276,7 @@ function PlanCard({
 
       <div className="mt-8">
         <MagneticButton
+          href={plan.cta === "Falar com vendas" ? productLinks.sales : productLinks.signup}
           variant={plan.highlight ? "primary" : "secondary"}
           size="md"
           className="w-full"

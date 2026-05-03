@@ -5,10 +5,11 @@
 - Landing is a standalone Next.js app in this repository, intended for Vercel hosting separate from the Phoenix operational app.
 - Production build is passing with `npm run build`.
 - Vercel should use the default Next.js preset with `npm run build` and no required environment variables.
-- CTA routing still needs a product decision before public launch: current links point to internal paths like `/login`, `/signup`, and `/contato`; these should point to the Phoenix app URL or a real lead/contact flow.
+- CTA routing now points to the Phoenix operational app: login uses `https://app.aiassistente.com.br/login`, signup/workspace CTAs use `https://app.aiassistente.com.br/auth/google`, and sales CTAs use `mailto:contato@aiassistente.com.br`.
+- `vercel.json` includes safety redirects so direct visits to `/login`, `/signup`, `/auth/google`, and `/app/:path*` on the landing domain are routed to the Phoenix app domain instead of showing a Vercel 404.
 
 ## Near-term priorities
 
 - Configure the Vercel project from `github.com/leodots/ai-assistant-landing`.
 - Set the production domain once chosen and update `metadataBase` in `app/layout.tsx` if the final domain is not `https://aiassistente.com.br`.
-- Replace placeholder CTA links with final destinations before paid traffic or customer demos.
+- Confirm the contact inbox for `contato@aiassistente.com.br` before sending paid traffic to the sales CTA, or replace it with the final CRM/WhatsApp/contact flow.

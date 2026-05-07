@@ -9,6 +9,7 @@
 - `vercel.json` includes safety redirects so direct visits to `/login`, `/signup`, `/auth/google`, and `/app/:path*` on the landing domain are routed to the Phoenix app domain instead of showing a Vercel 404.
 - Security/maintenance audit on 2026-05-03 found `npm audit --omit=dev` reporting a critical advisory through `next@15.1.11` and a moderate advisory through transitive `postcss`; update Next.js to a patched version and re-run the Vercel build before sending paid traffic.
 - Dependabot is configured through `.github/dependabot.yml` for npm dependencies, scheduled weekly in `America/Sao_Paulo` with minor/patch npm updates grouped to reduce PR noise. Add a `github-actions` Dependabot entry when CI workflows exist.
+- Dependabot PR #6 (`typescript-6.0.3`) exposed TypeScript 6's stricter side-effect import typing for `app/globals.css` and its new `baseUrl` deprecation error. `global.d.ts` now declares CSS module imports and `tsconfig.json` sets `ignoreDeprecations: "6.0"` so Next/Vercel type checking can compile the existing app structure.
 
 ## Near-term priorities
 

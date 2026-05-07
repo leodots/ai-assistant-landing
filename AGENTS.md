@@ -8,6 +8,7 @@
 - CTA routing now points to the Phoenix operational app: login uses `https://app.aiassistente.com.br/login`, signup/workspace CTAs use `https://app.aiassistente.com.br/auth/google`, and sales CTAs use `mailto:contato@aiassistente.com.br`.
 - `vercel.json` includes safety redirects so direct visits to `/login`, `/signup`, `/auth/google`, and `/app/:path*` on the landing domain are routed to the Phoenix app domain instead of showing a Vercel 404.
 - Security/maintenance audit on 2026-05-03 found `npm audit --omit=dev` reporting a critical advisory through `next@15.1.11` and a moderate advisory through transitive `postcss`; update Next.js to a patched version and re-run the Vercel build before sending paid traffic.
+- Dependabot is configured through `.github/dependabot.yml` for npm dependencies, scheduled weekly in `America/Sao_Paulo` with minor/patch npm updates grouped to reduce PR noise. Add a `github-actions` Dependabot entry when CI workflows exist.
 
 ## Near-term priorities
 

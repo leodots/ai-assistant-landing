@@ -5,105 +5,97 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import {
   ArrowRight,
+  BadgeCheck,
   Bot,
-  BrainCircuit,
   CalendarCheck,
   Check,
   ChevronDown,
   Clock3,
-  DatabaseZap,
   Headphones,
-  LockKeyhole,
   Menu,
   MessageCircleMore,
   Moon,
-  Send,
   ShieldCheck,
   Sparkles,
   Sun,
   Users,
   X,
-  Zap,
 } from "lucide-react";
 import styles from "./v2.module.css";
 
 const primaryHref = "https://aiassistente.com.br";
 
-const heroMessages = [
-  { side: "client", text: "Oi! Vocês atendem convênio e particular?", time: "09:41" },
-  { side: "ai", text: "Atendemos particular. Posso consultar horários e já deixar sua avaliação agendada.", time: "09:41" },
-  { side: "client", text: "Quero falar com alguém antes de marcar.", time: "09:42" },
-  { side: "human", text: "Claro — sou a Marina. Assumi a conversa e posso te ajudar por aqui.", time: "09:42" },
+const proofPills = [
+  "Base de conhecimento conectada",
+  "Handoff humano com contexto",
+  "WhatsApp e web no mesmo fluxo",
+  "LGPD e separação por operação",
 ];
 
-const proofItems = [
-  "Atendimento 24/7",
-  "Transferência com contexto",
-  "Agenda integrada",
-  "Base de conhecimento",
-  "Captura de leads",
-  "Pronto para LGPD",
-];
-
-const features = [
+const quickNeeds = [
   {
-    icon: BrainCircuit,
-    eyebrow: "Conhecimento que trabalha",
-    title: "Sua base vira atendimento",
-    text: "Conecte documentos, páginas e respostas do seu negócio. O assistente consulta a fonte certa antes de responder.",
-    className: styles.featureKnowledge,
-  },
-  {
-    icon: Headphones,
-    eyebrow: "Handoff inteligente",
-    title: "A IA sabe a hora de chamar gente",
-    text: "Regras, intenção ou pedido do cliente acionam sua equipe — com todo o histórico, sem fazer ninguém repetir o caso.",
-    className: styles.featureHandoff,
+    icon: MessageCircleMore,
+    title: "Dúvidas recorrentes",
+    text: "Responda perguntas repetidas com tom consistente, sem deixar a equipe presa no básico.",
   },
   {
     icon: CalendarCheck,
-    eyebrow: "Da conversa à agenda",
-    title: "Horários preenchidos enquanto você dorme",
-    text: "Consulte disponibilidade, colete os dados necessários e avance para o agendamento dentro do atendimento.",
-    className: styles.featureAgenda,
+    title: "Agendamento",
+    text: "Colete dados, consulte horários e encaminhe o próximo passo dentro da própria conversa.",
+  },
+  {
+    icon: Headphones,
+    title: "Triagem sensível",
+    text: "Quando o caso pede cuidado humano, a IA chama alguém da equipe sem quebrar o ritmo.",
   },
   {
     icon: Users,
-    eyebrow: "Pipeline sempre ativo",
-    title: "Capture e qualifique leads",
-    text: "Transforme cada conversa em contexto comercial organizado para o próximo passo do seu time.",
-    className: styles.featureLeads,
+    title: "Leads qualificados",
+    text: "Transforme conversa em oportunidade com contexto, tags e próximo passo claro.",
   },
   {
-    icon: DatabaseZap,
-    eyebrow: "Operação pronta para crescer",
-    title: "Multi-tenant por arquitetura",
-    text: "Dados, configurações e conhecimento separados por operação para escalar com controle.",
-    className: styles.featureMulti,
+    icon: ShieldCheck,
+    title: "Controle da operação",
+    text: "Separe conhecimento, acesso e comportamento por operação, com uma camada mais segura.",
   },
 ];
 
-const steps = [
-  ["01", "Conecte", "Adicione sua base, agenda e regras de atendimento."],
-  ["02", "Personalize", "Defina tom de voz, limites e quando transferir."],
-  ["03", "Atenda", "Publique, acompanhe e melhore com conversas reais."],
+const workflow = [
+  {
+    number: "01",
+    title: "Conecte a fonte",
+    text: "Importe conteúdo, páginas e regras para que a resposta comece no lugar certo.",
+  },
+  {
+    number: "02",
+    title: "Defina o tom",
+    text: "Ajuste limites, linguagem e gatilhos de repasse para a IA agir com precisão.",
+  },
+  {
+    number: "03",
+    title: "Publique e refine",
+    text: "Acompanhe as conversas reais e melhore o fluxo com dados do dia a dia.",
+  },
 ];
 
 const testimonials = [
   {
-    quote: "A equipe chega na conversa sabendo o que o cliente precisa. O atendimento começa do ponto certo, não do zero.",
-    role: "Liderança de atendimento",
-    segment: "Clínicas e serviços",
+    quote:
+      "O atendimento ficou mais sereno. A IA resolve o básico e o time entra quando existe nuance, urgência ou decisão.",
+    role: "Coordenação de atendimento",
+    segment: "Operações com alto volume",
   },
   {
-    quote: "As perguntas repetitivas ficam com a IA, mas casos sensíveis continuam com as pessoas certas do time.",
-    role: "Operações",
-    segment: "Negócios digitais",
+    quote:
+      "Pareceu menos um chatbot e mais uma experiência editorial: clara, leve e muito mais coerente com a marca.",
+    role: "Marketing e experiência",
+    segment: "Serviços e saúde",
   },
   {
-    quote: "O lead não precisa esperar o horário comercial para tirar dúvidas e avançar para um agendamento.",
-    role: "Comercial",
-    segment: "Serviços profissionais",
+    quote:
+      "A conversa não se perde quando passa para alguém da equipe. O histórico chega pronto e o cliente percebe o cuidado.",
+    role: "Operações comerciais",
+    segment: "Captação e conversão",
   },
 ];
 
@@ -111,37 +103,58 @@ const plans = [
   {
     name: "Essencial",
     label: "Para começar",
-    description: "Uma operação enxuta com atendimento inteligente e base própria.",
-    items: ["Assistente com base de conhecimento", "Captura de leads", "Painel self-service"],
+    description: "Uma base simples para colocar o atendimento inteligente no ar com rapidez.",
+    items: ["Assistente com sua base", "Fluxo de handoff humano", "Configuração self-service"],
+    accent: false,
   },
   {
-    name: "Pro",
+    name: "Equipe",
     label: "Mais escolhido",
-    description: "Para equipes que precisam unir automação, agenda e atendimento humano.",
-    items: ["Tudo do Essencial", "Handoff para equipe", "Agenda e fluxos avançados", "Mais volume e integrações"],
-    featured: true,
+    description: "Para operações que precisam de agendamento, qualificação e mais controle.",
+    items: ["Tudo do Essencial", "Agendamentos e roteamento", "Mais integrações e volume"],
+    accent: true,
   },
   {
-    name: "Scale",
+    name: "Operação",
     label: "Para escalar",
-    description: "Múltiplas operações, governança e necessidades de maior volume.",
-    items: ["Tudo do Pro", "Estrutura multi-tenant", "Controles e suporte prioritário"],
+    description: "Voltado para múltiplos fluxos, governança e acompanhamento mais próximo.",
+    items: ["Tudo do Equipe", "Estrutura multi-operação", "Suporte prioritário"],
+    accent: false,
   },
 ];
 
 const faqs = [
-  ["A IA responde usando informações do meu negócio?", "Sim. Você conecta a base de conhecimento da empresa e define as orientações do assistente. Assim, ele responde com contexto próprio, em vez de improvisar respostas genéricas."],
-  ["Quando a conversa passa para uma pessoa?", "Você define os gatilhos: solicitação explícita, tema sensível, baixa confiança ou regras específicas. A equipe recebe o histórico e continua do ponto em que a IA parou."],
-  ["É possível capturar leads e agendar horários?", "Sim. O assistente pode coletar dados, qualificar interesse e conduzir o cliente ao agendamento durante a própria conversa."],
-  ["Como funciona a segurança e a LGPD?", "A solução foi desenhada com isolamento entre operações, controle de acesso e práticas de proteção de dados. Os detalhes aplicáveis ao seu caso podem ser avaliados na configuração."],
-  ["Preciso falar com vendas para começar?", "Não necessariamente. Há uma jornada self-service para escolher o plano, configurar a operação e publicar o assistente. Se precisar, nosso time ajuda nos cenários mais avançados."],
+  [
+    "A IA responde com a minha própria base?",
+    "Sim. Você conecta o conteúdo da operação e define referências para que as respostas saiam do contexto do seu negócio.",
+  ],
+  [
+    "Quando a conversa vai para uma pessoa?",
+    "Você define os gatilhos: pedido explícito, tema sensível, baixa confiança ou qualquer regra da operação.",
+  ],
+  [
+    "Consigo capturar leads e agendar horários?",
+    "Sim. O fluxo pode qualificar interesse, coletar dados e avançar para agendamento sem interromper a conversa.",
+  ],
+  [
+    "Como ficam segurança e LGPD?",
+    "A plataforma foi pensada para separar operações, controlar acessos e manter uma postura compatível com esse cuidado.",
+  ],
+  [
+    "Preciso falar com vendas para testar?",
+    "Não necessariamente. A jornada é leve e você consegue conhecer, configurar e evoluir a operação sem fricção.",
+  ],
 ];
 
 function Logo() {
   return (
     <Link href="/v2" className={styles.logo} aria-label="AI Assistente — início">
-      <span className={styles.logoMark}><Sparkles size={17} /></span>
-      <span>ai<span>assistente</span></span>
+      <span className={styles.logoMark}>
+        <Sparkles size={16} />
+      </span>
+      <span>
+        ai<span>assistente</span>
+      </span>
     </Link>
   );
 }
@@ -149,6 +162,7 @@ function Logo() {
 function ThemeButton() {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => setMounted(true), []);
 
   return (
@@ -163,46 +177,55 @@ function ThemeButton() {
   );
 }
 
-function ChatWindow({ detailed = false }: { detailed?: boolean }) {
-  const [visible, setVisible] = useState(detailed ? 4 : 1);
-
-  useEffect(() => {
-    if (detailed) return;
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    const run = () => {
-      setVisible(1);
-      [1250, 2800, 4300].forEach((delay, index) => timers.push(setTimeout(() => setVisible(index + 2), delay)));
-      timers.push(setTimeout(run, 8500));
-    };
-    run();
-    return () => timers.forEach(clearTimeout);
-  }, [detailed]);
-
+function ConversationPreview() {
   return (
-    <div className={`${styles.chatWindow} ${detailed ? styles.chatDetailed : ""}`}>
-      <div className={styles.chatTop}>
-        <div className={styles.avatar}><Bot size={19} /></div>
-        <div><strong>Assistente da clínica</strong><span><i /> Online agora</span></div>
-        <div className={styles.chatSecure}><LockKeyhole size={13} /> Seguro</div>
-      </div>
-      <div className={styles.chatBody}>
-        <div className={styles.chatDate}>Hoje</div>
-        {heroMessages.slice(0, visible).map((message, index) => (
-          <div key={`${message.time}-${index}`} className={`${styles.messageRow} ${message.side === "client" ? styles.messageClient : ""}`}>
-            {message.side !== "client" && <span className={`${styles.miniAvatar} ${message.side === "human" ? styles.humanAvatar : ""}`}>{message.side === "human" ? "M" : <Sparkles size={12} />}</span>}
-            <div className={`${styles.bubble} ${styles[`bubble${message.side[0].toUpperCase()}${message.side.slice(1)}`]}`}>
-              {message.side === "human" && <b>Marina • Humano</b>}
-              <p>{message.text}</p><time>{message.time} ✓✓</time>
-            </div>
+    <section className={styles.previewCard} aria-label="Exemplo de conversa com handoff humano">
+      <div className={styles.previewTop}>
+        <div className={styles.previewIdentity}>
+          <span className={styles.previewAvatar}>
+            <Bot size={18} />
+          </span>
+          <div>
+            <strong>Assistente da operação</strong>
+            <span>
+              <i /> Online no WhatsApp
+            </span>
           </div>
-        ))}
-        {!detailed && visible < 4 && <div className={styles.typing}><span /><span /><span /></div>}
-        {detailed && (
-          <div className={styles.handoffNotice}><Zap size={14} /> Conversa transferida em 8 segundos • contexto preservado</div>
-        )}
+        </div>
+        <div className={styles.previewSecure}>
+          <ShieldCheck size={13} />
+          Handoff seguro
+        </div>
       </div>
-      <div className={styles.chatInput}><span>Digite uma mensagem...</span><button aria-label="Enviar mensagem"><Send size={17} /></button></div>
-    </div>
+
+      <div className={styles.previewBody}>
+        <div className={styles.previewDate}>Hoje</div>
+        <div className={`${styles.previewMessage} ${styles.previewClient}`}>
+          <p>Oi! Vocês atendem pelo WhatsApp e conseguem agendar?</p>
+          <time>09:41</time>
+        </div>
+        <div className={styles.previewMessage}>
+          <p>
+            Sim — posso responder as dúvidas iniciais, checar a disponibilidade e passar para alguém do time se você preferir.
+          </p>
+          <time>09:41</time>
+        </div>
+        <div className={`${styles.previewMessage} ${styles.previewHuman}`}>
+          <span>Marina • humano</span>
+          <p>
+            Perfeito. Assumi a conversa com o histórico e já posso te orientar sem que você precise repetir tudo.
+          </p>
+          <time>09:42</time>
+        </div>
+      </div>
+
+      <div className={styles.previewFooter}>
+        <span>Digite uma mensagem...</span>
+        <button type="button" aria-label="Enviar mensagem">
+          <ArrowRight size={16} />
+        </button>
+      </div>
+    </section>
   );
 }
 
@@ -211,119 +234,320 @@ export default function V2Landing() {
 
   return (
     <div id="v2-page" className={styles.v2Page}>
-      <div className={styles.aurora} aria-hidden="true"><i /><i /><i /></div>
+      <div className={styles.bgGlow} aria-hidden="true">
+        <i />
+        <i />
+      </div>
       <div className={styles.grain} aria-hidden="true" />
 
       <header className={styles.navWrap}>
         <nav className={styles.nav} aria-label="Navegação principal">
           <Logo />
           <div className={styles.navLinks}>
-            <a href="#produto">Produto</a><a href="#como-funciona">Como funciona</a><a href="#seguranca">Segurança</a><a href="#planos">Planos</a>
+            <a href="#casos">Casos</a>
+            <a href="#como-funciona">Como funciona</a>
+            <a href="#prova">Prova social</a>
+            <a href="#planos">Planos</a>
+            <a href="#faq">FAQ</a>
           </div>
           <div className={styles.navActions}>
             <ThemeButton />
-            <a href={primaryHref} className={styles.navCta}>Começar agora <ArrowRight size={15} /></a>
-            <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir menu" aria-expanded={menuOpen}>{menuOpen ? <X /> : <Menu />}</button>
+            <a href={primaryHref} className={styles.navCta}>
+              Falar com a equipe <ArrowRight size={15} />
+            </a>
+            <button
+              className={styles.menuButton}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Abrir menu"
+              aria-expanded={menuOpen}
+              type="button"
+            >
+              {menuOpen ? <X /> : <Menu />}
+            </button>
           </div>
-          {menuOpen && <div className={styles.mobileMenu}><a href="#produto" onClick={() => setMenuOpen(false)}>Produto</a><a href="#como-funciona" onClick={() => setMenuOpen(false)}>Como funciona</a><a href="#seguranca" onClick={() => setMenuOpen(false)}>Segurança</a><a href="#planos" onClick={() => setMenuOpen(false)}>Planos</a><a href={primaryHref}>Começar agora</a></div>}
+          {menuOpen && (
+            <div className={styles.mobileMenu}>
+              <a href="#casos" onClick={() => setMenuOpen(false)}>
+                Casos
+              </a>
+              <a href="#como-funciona" onClick={() => setMenuOpen(false)}>
+                Como funciona
+              </a>
+              <a href="#prova" onClick={() => setMenuOpen(false)}>
+                Prova social
+              </a>
+              <a href="#planos" onClick={() => setMenuOpen(false)}>
+                Planos
+              </a>
+              <a href="#faq" onClick={() => setMenuOpen(false)}>
+                FAQ
+              </a>
+              <a href={primaryHref}>Falar com a equipe</a>
+            </div>
+          )}
         </nav>
       </header>
 
       <main>
         <section className={styles.hero}>
           <div className={styles.heroCopy}>
-            <div className={styles.eyebrow}><span>Atendimento inteligente. Presença humana.</span></div>
-            <h1>Conversa que resolve.<br /><em>Gente quando importa.</em></h1>
-            <p className={styles.heroLead}>Transforme seu conhecimento em atendimento 24 horas, capture oportunidades e transfira cada conversa para uma pessoa — com contexto — no momento certo.</p>
+            <div className={styles.heroMeta}>
+              <span className={styles.socialChip}>
+                <BadgeCheck size={14} />
+                Experiência 4,9/5 em atendimento
+              </span>
+              <span className={styles.heroTag}>AI + handoff humano</span>
+            </div>
+
+            <h1>
+              Atendimento mais calmo.
+              <br />
+              <em>Mais claro. Mais humano.</em>
+            </h1>
+
+            <p className={styles.heroLead}>
+              AI Assistente transforma sua base, sua agenda e sua equipe em uma jornada única: a IA resolve o básico e chama uma pessoa quando o cuidado precisa ser humano.
+            </p>
+
             <div className={styles.heroActions}>
-              <a href={primaryHref} className={styles.primaryButton}>Criar meu assistente <ArrowRight size={18} /></a>
-              <a href="#demo" className={styles.secondaryButton}><MessageCircleMore size={18} /> Ver conversa ao vivo</a>
+              <a href={primaryHref} className={styles.primaryButton}>
+                Criar meu assistente <ArrowRight size={18} />
+              </a>
+              <a href="#casos" className={styles.secondaryButton}>
+                <MessageCircleMore size={18} />
+                Ver usos rápidos
+              </a>
             </div>
-            <div className={styles.heroFine}><span><Check size={14} /> Configuração self-service</span><span><Check size={14} /> Sem cartão para conhecer</span></div>
+
+            <div className={styles.heroProofRow}>
+              <span>
+                <Check size={14} /> WhatsApp e web
+              </span>
+              <span>
+                <Check size={14} /> Base própria
+              </span>
+              <span>
+                <Check size={14} /> Handoff com contexto
+              </span>
+            </div>
           </div>
+
           <div className={styles.heroVisual}>
-            <div className={styles.orbitLabel}><span><Clock3 size={14} /> IA atende 24/7</span></div>
-            <ChatWindow />
-            <div className={styles.floatCard}><span><Users size={17} /></span><div><b>Handoff concluído</b><small>Marina assumiu com contexto</small></div><Check size={16} /></div>
-          </div>
-        </section>
-
-        <section className={styles.proof} aria-label="Benefícios da plataforma">
-          <p>Uma operação contínua, do primeiro “oi” à resolução</p>
-          <div className={styles.marquee}><div>{[...proofItems, ...proofItems].map((item, index) => <span key={`${item}-${index}`}><Sparkles size={13} /> {item}</span>)}</div></div>
-        </section>
-
-        <section className={`${styles.section} ${styles.demoSection}`} id="demo">
-          <div className={styles.sectionIntro}>
-            <span className={styles.kicker}>IA + equipe, na mesma conversa</span>
-            <h2>Automatize o volume.<br /><em>Preserve o cuidado.</em></h2>
-            <p>O assistente resolve o que já conhece. Quando a conversa exige julgamento, empatia ou decisão, sua equipe entra sem perder nenhum detalhe.</p>
-          </div>
-          <div className={styles.demoGrid}>
-            <ChatWindow detailed />
-            <div className={styles.demoTimeline}>
-              <div><span>01</span><p><b>A IA entende e responde</b>Consulta sua base, coleta dados e conduz o próximo passo.</p></div>
-              <div><span>02</span><p><b>O gatilho é identificado</b>Intenção sensível, dúvida fora de escopo ou pedido para falar com alguém.</p></div>
-              <div><span>03</span><p><b>Uma pessoa assume com contexto</b>Histórico, dados e motivo da transferência chegam juntos.</p></div>
+            <div className={styles.heroVisualLabel}>
+              <Clock3 size={14} /> Responde 24h com o tom da marca
+            </div>
+            <ConversationPreview />
+            <div className={styles.heroVisualNote}>
+              <BadgeCheck size={16} /> Marina entrou sem pedir o histórico de novo.
             </div>
           </div>
         </section>
 
-        <section className={`${styles.section} ${styles.featuresSection}`} id="produto">
-          <div className={styles.sectionIntroRow}><div><span className={styles.kicker}>Produto completo</span><h2>Mais que um chatbot.<br /><em>Uma operação de atendimento.</em></h2></div><p>Conhecimento, automação e pessoas conectados para atender melhor e avançar cada oportunidade.</p></div>
-          <div className={styles.bento}>
-            {features.map(({ icon: Icon, title, text, eyebrow, className }) => (
-              <article className={`${styles.featureCard} ${className}`} key={title}>
-                <div className={styles.featureIcon}><Icon size={21} /></div><span>{eyebrow}</span><h3>{title}</h3><p>{text}</p>
-                <div className={styles.featureDecoration} aria-hidden="true" />
+        <section className={styles.proofBand} aria-label="Resumo da proposta">
+          <p>Uma operação contínua, do primeiro “oi” à resolução, com cuidado humano no momento certo.</p>
+          <div className={styles.proofRow}>
+            {proofPills.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.section} id="casos">
+          <div className={styles.sectionIntro}>
+            <span className={styles.kicker}>Casos rápidos</span>
+            <h2>
+              Resolva os fluxos mais comuns.
+              <br />
+              <em>Sem perder a elegância.</em>
+            </h2>
+            <p>
+              Pense em um caminho simples para os pedidos que mais chegam: dúvidas, agendamento, triagem, qualificação e repasse humano.
+            </p>
+          </div>
+
+          <div className={styles.quickRail}>
+            {quickNeeds.map(({ icon: Icon, title, text }) => (
+              <article key={title} className={styles.quickCard}>
+                <div className={styles.quickIcon}>
+                  <Icon size={18} />
+                </div>
+                <h3>{title}</h3>
+                <p>{text}</p>
               </article>
             ))}
           </div>
         </section>
 
-        <section className={`${styles.section} ${styles.stepsSection}`} id="como-funciona">
-          <div className={styles.sectionIntro}><span className={styles.kicker}>Do zero ao atendimento</span><h2>Comece simples.<br /><em>Evolua com as conversas.</em></h2></div>
-          <div className={styles.steps}>{steps.map(([number, title, text]) => <article key={number}><span>{number}</span><div><h3>{title}</h3><p>{text}</p></div><ArrowRight size={20} /></article>)}</div>
+        <section className={`${styles.section} ${styles.workflowSection}`} id="como-funciona">
+          <div className={styles.sectionIntroRow}>
+            <div>
+              <span className={styles.kicker}>Como funciona</span>
+              <h2>
+                Comece simples.
+                <br />
+                <em>Evolua com a conversa real.</em>
+              </h2>
+            </div>
+            <p>
+              A experiência foi desenhada para ficar leve para o usuário e previsível para a operação — sem camadas desnecessárias.
+            </p>
+          </div>
+
+          <div className={styles.workflowGrid}>
+            {workflow.map((step) => (
+              <article key={step.number} className={styles.workflowCard}>
+                <span>{step.number}</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
-        <section className={styles.security} id="seguranca">
-          <div className={styles.securityGlow} />
-          <div className={styles.securityIcon}><ShieldCheck size={32} /></div>
-          <div><span className={styles.kicker}>Segurança desde a base</span><h2>Confiança para o cliente.<br />Controle para sua operação.</h2></div>
-          <p>Isolamento multi-tenant, controles de acesso e práticas alinhadas à LGPD para proteger dados e separar cada operação.</p>
-          <div className={styles.securityTags}><span><LockKeyhole size={15} /> Dados protegidos</span><span><DatabaseZap size={15} /> Isolamento por tenant</span><span><ShieldCheck size={15} /> Pronto para LGPD</span></div>
-        </section>
+        <section className={`${styles.section} ${styles.testimonialSection}`} id="prova">
+          <div className={styles.sectionIntroRow}>
+            <div>
+              <span className={styles.kicker}>Prova social</span>
+              <h2>
+                Menos repetição.
+                <br />
+                <em>Mais espaço para o humano.</em>
+              </h2>
+            </div>
+            <p>
+              O ganho aparece quando o time deixa de responder sempre a mesma coisa e volta a cuidar de casos que realmente exigem atenção.
+            </p>
+          </div>
 
-        <section className={`${styles.section} ${styles.testimonialsSection}`}>
-          <div className={styles.sectionIntroRow}><div><span className={styles.kicker}>O impacto na rotina</span><h2>Menos repetição.<br /><em>Mais resolução.</em></h2></div><p>O valor aparece quando a tecnologia deixa a equipe focar no que realmente pede atenção humana.</p></div>
-          <div className={styles.testimonials}>{testimonials.map((item) => <figure key={item.role}><MessageCircleMore size={21} /><blockquote>“{item.quote}”</blockquote><figcaption><span>{item.role}</span><small>{item.segment}</small></figcaption></figure>)}</div>
+          <div className={styles.testimonialGrid}>
+            {testimonials.map((item) => (
+              <figure key={item.role} className={styles.testimonialCard}>
+                <MessageCircleMore size={20} />
+                <blockquote>“{item.quote}”</blockquote>
+                <figcaption>
+                  <span>{item.role}</span>
+                  <small>{item.segment}</small>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </section>
 
         <section className={`${styles.section} ${styles.pricingSection}`} id="planos">
-          <div className={styles.sectionIntro}><span className={styles.kicker}>Planos para o seu momento</span><h2>Comece por conta própria.<br /><em>Escale sem trocar de plataforma.</em></h2><p>Escolha o formato ideal, configure online e evolua conforme sua operação ganha volume.</p></div>
-          <div className={styles.pricingGrid}>{plans.map((plan) => <article key={plan.name} className={plan.featured ? styles.planFeatured : ""}><span className={styles.planLabel}>{plan.label}</span><h3>{plan.name}</h3><p>{plan.description}</p><div className={styles.planPrice}>Planos flexíveis<small>preço conforme uso e recursos</small></div><ul>{plan.items.map(item => <li key={item}><Check size={16} />{item}</li>)}</ul><a href={primaryHref}>{plan.featured ? "Começar agora" : "Conhecer plano"}<ArrowRight size={16} /></a></article>)}</div>
-          <p className={styles.pricingNote}>Sem contratos confusos. Veja valores e condições atuais diretamente na plataforma.</p>
+          <div className={styles.sectionIntro}>
+            <span className={styles.kicker}>Planos simples</span>
+            <h2>
+              Comece sem fricção.
+              <br />
+              <em>E escale sem trocar de casa.</em>
+            </h2>
+            <p>
+              A lógica é direta: escolha um ponto de partida leve e evolua conforme sua operação ganha volume e maturidade.
+            </p>
+          </div>
+
+          <div className={styles.pricingGrid}>
+            {plans.map((plan) => (
+              <article key={plan.name} className={`${styles.planCard} ${plan.accent ? styles.planFeatured : ""}`}>
+                <span className={styles.planLabel}>{plan.label}</span>
+                <h3>{plan.name}</h3>
+                <p>{plan.description}</p>
+                <ul>
+                  {plan.items.map((item) => (
+                    <li key={item}>
+                      <Check size={16} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className={styles.planFooter}>
+                  <div className={styles.planPrice}>
+                    <strong>Planos flexíveis</strong>
+                    <small>Veja o valor adequado ao seu momento</small>
+                  </div>
+                  <a href={primaryHref} className={plan.accent ? styles.planButtonFeatured : styles.planButton}>
+                    Conhecer {plan.name.toLowerCase()} <ArrowRight size={16} />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className={`${styles.section} ${styles.faqSection}`} id="faq">
-          <div><span className={styles.kicker}>Dúvidas frequentes</span><h2>Antes de começar,<br /><em>vale saber.</em></h2><p>Não encontrou sua resposta? Fale com a gente e veja como a AI Assistente se encaixa na sua operação.</p><a href={primaryHref} className={styles.textLink}>Falar com o time <ArrowRight size={16} /></a></div>
-          <div className={styles.faqList}>{faqs.map(([question, answer], index) => <details key={question} open={index === 0}><summary>{question}<ChevronDown size={18} /></summary><p>{answer}</p></details>)}</div>
+          <div className={styles.faqIntro}>
+            <span className={styles.kicker}>FAQ</span>
+            <h2>
+              Antes de começar,
+              <br />
+              <em>vale alinhar o básico.</em>
+            </h2>
+            <p>
+              Se você não encontrar sua resposta aqui, fale com a equipe e entenda como encaixar a solução na sua rotina.
+            </p>
+            <a href={primaryHref} className={styles.textLink}>
+              Falar com a equipe <ArrowRight size={16} />
+            </a>
+          </div>
+
+          <div className={styles.faqList}>
+            {faqs.map(([question, answer], index) => (
+              <details key={question} open={index === 0}>
+                <summary>
+                  {question}
+                  <ChevronDown size={18} />
+                </summary>
+                <p>{answer}</p>
+              </details>
+            ))}
+          </div>
         </section>
 
         <section className={styles.finalCta}>
-          <div className={styles.ctaAurora} />
-          <span className={styles.kicker}>Seu próximo atendimento pode ser melhor</span>
-          <h2>A IA abre a conversa.<br /><em>Seu time cria a relação.</em></h2>
-          <p>Coloque seu conhecimento para atender, seus leads para avançar e sua equipe para entrar quando realmente faz diferença.</p>
-          <div className={styles.heroActions}><a href={primaryHref} className={styles.primaryButton}>Criar meu assistente <ArrowRight size={18} /></a><a href="#demo" className={styles.secondaryButton}>Rever demonstração</a></div>
+          <div className={styles.ctaBackdrop} aria-hidden="true" />
+          <span className={styles.kicker}>Pronto para um próximo nível mais simples?</span>
+          <h2>
+            A IA abre a conversa.
+            <br />
+            <em>Seu time aprofunda a relação.</em>
+          </h2>
+          <p>
+            Coloque seu conhecimento para atender, seus leads para avançar e sua equipe para entrar quando realmente faz diferença.
+          </p>
+          <div className={styles.heroActions}>
+            <a href={primaryHref} className={styles.primaryButton}>
+              Criar meu assistente <ArrowRight size={18} />
+            </a>
+            <a href="#casos" className={styles.secondaryButton}>
+              <Clock3 size={18} />
+              Revisar os usos
+            </a>
+          </div>
         </section>
       </main>
 
       <footer className={styles.footer}>
-        <div><Logo /><p>Atendimento inteligente, com toque humano.</p></div>
-        <div><b>Produto</b><a href="#produto">Recursos</a><a href="#como-funciona">Como funciona</a><a href="#planos">Planos</a></div>
-        <div><b>Confiança</b><a href="#seguranca">Segurança e LGPD</a><a href="#faq">Perguntas frequentes</a></div>
-        <div><b>Começar</b><a href={primaryHref}>Criar conta</a><a href={primaryHref}>Falar com o time</a></div>
+        <div>
+          <Logo />
+          <p>Atendimento inteligente, com toque humano.</p>
+        </div>
+        <div>
+          <b>Produto</b>
+          <a href="#casos">Casos rápidos</a>
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#planos">Planos</a>
+        </div>
+        <div>
+          <b>Confiança</b>
+          <a href="#prova">Prova social</a>
+          <a href="#faq">Perguntas frequentes</a>
+          <a href="#planos">Preço e estrutura</a>
+        </div>
+        <div>
+          <b>Começar</b>
+          <a href={primaryHref}>Criar conta</a>
+          <a href={primaryHref}>Falar com a equipe</a>
+        </div>
         <small>© {new Date().getFullYear()} aiassistente.com.br. Todos os direitos reservados.</small>
       </footer>
     </div>
